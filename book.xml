@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<catalogue>
+  <book id="001">
+    <title>aaa</title>
+    <author>Zhao</author>
+    <price>39</price>
+  </book>
+  <book id="002">
+    <title>bbb</title>
+    <author>Yu</author>
+    <price>59</price>
+  </book>
+  <book id="003">
+    <title>ccc</title>
+    <author>chen</author>
+    <price>99</price>
+  </book>
+</catalogue>

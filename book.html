@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Book Catalogue</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 700px; margin: 20px auto; padding: 0 20px; }
+        .book-card {
+            border: 1px solid #e0e0e0;
+            padding: 16px;
+            margin: 12px 0;
+            border-radius: 8px;
+            background: #fafafa;
+        }
+        .book-title { font-size: 1.15em; font-weight: bold; color: #2d3748; }
+    </style>
+</head>
+<body>
+    <h1>Book Catalogue</h1>
+    <div id="book-container"></div>
+
+    <script>
+        fetch('book.xml')
+            .then(response => {
+                if (!response.ok) throw new Error('Load failed: ' + response.status);
+                return response.text();
+            })
+            .then(xmlText => {
+                const parser = new DOMParser();
+                const xmlDoc = parser.parseFromString(xmlText, 'text/xml');
+                const books = xmlDoc.getElementsByTagName('book');
+                const container = document.getElementById('book-container');
+
+                for (let i = 0; i < books.length; i++) {
+                    const book = books[i];
+                    const id = book.getAttribute('id');
+                    const title = book.getElementsByTagName('title')[0].textContent;
+                    const author = book.getElementsByTagName('author')[0].textContent;
+                    const price = book.getElementsByTagName('price')[0].textContent;
+
+                    const card = document.createElement('div');
+                    card.className = 'book-card';
+                    card.innerHTML = `
+                        <div class="book-title">${title}</div>
+                        <div>Book ID: ${id}</div>
+                        <div>Author: ${author}</div>
+                        <div>Price: $${price}</div>
+                    `;
+                    container.appendChild(card);
+                }
+            })
+            .catch(err => {
+                console.error(err);
+                document.getElementById('book-container').textContent = 'Failed to load book data.';
+            });
+    </script>
+</body>
+</html>
